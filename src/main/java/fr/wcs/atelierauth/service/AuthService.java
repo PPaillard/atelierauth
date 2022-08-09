@@ -1,5 +1,6 @@
 package fr.wcs.atelierauth.service;
 
+import fr.wcs.atelierauth.dto.JwtResponseDto;
 import fr.wcs.atelierauth.dto.UserDto;
 import fr.wcs.atelierauth.dto.UserLoginDto;
 import fr.wcs.atelierauth.entity.Role;
@@ -7,6 +8,7 @@ import fr.wcs.atelierauth.entity.User;
 import fr.wcs.atelierauth.repository.RoleRepository;
 import fr.wcs.atelierauth.repository.UserRepository;
 import fr.wcs.atelierauth.security.UserDetailsImpl;
+import fr.wcs.atelierauth.security.jwt.UtilsJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,6 +37,9 @@ public class AuthService {
     @Autowired
     AuthenticationManager authenticationManager;
 
+    @Autowired
+    UtilsJWT utilsJWT;
+
     public void register(UserDto userDto) {
         // On va récuperer le role USER
         Role role = roleRepository.findRoleByAuthority("ROLE_USER").orElseThrow(
@@ -53,7 +58,7 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public String login(UserLoginDto userLoginDto) {
+    public JwtResponseDto login(UserLoginDto userLoginDto) {
         // verifier username / Password
         Authentication authentication =  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 userLoginDto.getUsername(),userLoginDto.getPassword()));
@@ -63,9 +68,9 @@ public class AuthService {
         UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
 
         // on va générer le token JWT
-
+        String token = utilsJWT.generateToken(userDetailsImpl);
 
         // on va renvoyer le token
-        return "";
+        return new JwtResponseDto(userDetailsImpl.getUsername(), userDetailsImpl.getAuthorities(), token);
     }
 }

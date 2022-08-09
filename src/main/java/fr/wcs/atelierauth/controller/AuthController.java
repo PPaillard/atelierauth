@@ -1,5 +1,6 @@
 package fr.wcs.atelierauth.controller;
 
+import fr.wcs.atelierauth.dto.JwtResponseDto;
 import fr.wcs.atelierauth.dto.UserLoginDto;
 import fr.wcs.atelierauth.service.AuthService;
 import fr.wcs.atelierauth.dto.UserDto;
@@ -20,7 +21,7 @@ public class AuthController {
     public void register(@RequestBody @Valid UserDto userDto){ authService.register(userDto); }
 
     @PostMapping("/login")
-    public String login(@RequestBody @Valid UserLoginDto userLoginDto){
+    public JwtResponseDto login(@RequestBody @Valid UserLoginDto userLoginDto){
         return authService.login(userLoginDto);
     }
 }
