@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
+// on autorise les CORS de toutes provenances
 @CrossOrigin
 @RequestMapping("/auth")
 public class AuthController {

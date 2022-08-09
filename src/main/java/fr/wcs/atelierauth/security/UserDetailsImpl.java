@@ -8,6 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Classe contenant un utilisateur compréhensible par Spring avec les méthodes dont il a besoin par defaut
+ * qui sont contenus dans l'interface UserDetails que l'on implémente
+ */
 public class UserDetailsImpl implements UserDetails {
 
     private String username;
@@ -16,6 +20,10 @@ public class UserDetailsImpl implements UserDetails {
 
     private List<Role> authorities;
 
+    /**
+     * Un UserDetails se construit grace à une entité User, on le fait donc.
+     * @param user entity
+     */
     public UserDetailsImpl(User user){
         this.username = user.getUsername();
         this.password = user.getPassword();
