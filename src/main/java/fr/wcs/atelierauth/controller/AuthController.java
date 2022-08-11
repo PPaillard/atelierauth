@@ -22,7 +22,7 @@ public class AuthController {
     public void register(@RequestBody @Valid UserDto userDto){ authService.register(userDto); }
 
     @PostMapping("/login")
-    public JwtResponseDto login(@RequestBody @Valid UserLoginDto userLoginDto){
+    public JwtResponseDto login(@RequestBody @Valid UserLoginDto userLoginDto) {
         return authService.login(userLoginDto);
     }
 }
